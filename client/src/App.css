@@ -1,3 +1,25 @@
 .App {
-  text-align: center;
+  display: flex;
+  
+}
+
+.products {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.product {
+  width: 80%;
+  height: auto;
+  border: 1px solid black;
+  margin: 1%;
+  display: flex;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.product h3 {
+  margin: 20px
 }
