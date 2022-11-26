@@ -3,12 +3,13 @@ const app = express()
 const mysql = require('mysql2')
 const cors = require('cors')
 
+//CORS allows servers specify origins to permit requests from. 
 app.use(cors());
 
 //Parse json
 app.use(express.json());
 
-//password is either empty or "password"
+//database connection
 const db = mysql.createConnection({
     user: 'root',
     host: 'localhost',
@@ -16,13 +17,15 @@ const db = mysql.createConnection({
     database: 'bespoked_data'
 });
 
-//Makes a route for create so would be localhost:3001/create
+//Makes a route for create (localhost:3001/create)
 //Take from frontend is req (request), and send something to frontend is res (respond)
 app.post('/create', (req, res) => {
 
 })
 
+//Makes route for products (localhost:3001/products)
 app.get('/products', (req, res) => {
+    //Select everything from product table
     db.query("SELECT * FROM products", (err, result) => {
         if (err) {
             console.log(err)
@@ -32,6 +35,7 @@ app.get('/products', (req, res) => {
     })
 })
 
+//confirmation of running server
 app.listen(3001, ()=> {
     console.log("ya server running on port 3001");
 })
