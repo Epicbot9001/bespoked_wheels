@@ -34,7 +34,62 @@ app.get("/products", (req, res) => {
   });
 });
 
-app.put("/update", (req, res) => {
+//Makes route for salesperson (localhost:3001/salesperson)
+//Will get (read) data from database
+app.get("/salesperson", (req, res) => {
+  //Select everything from salesperson table
+  db.query("SELECT * FROM salesperson", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+//Makes route for customer (localhost:3001/customer)
+//Will get (read) data from database
+app.get("/customer", (req, res) => {
+  //Select everything from customer table
+  db.query("SELECT * FROM customer", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+//Makes route for sales (localhost:3001/sales)
+//Will get (read) data from database
+app.get("/sales", (req, res) => {
+  //Select everything from sales table
+  db.query("SELECT * FROM sales", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+//Makes route for commission report (localhost:3001/commission)
+//Will get (read) data from database
+app.get("/commission", (req, res) => {
+  //Select everything from sales table
+  db.query(
+    "SELECT bespoked_data.sales.salesperson, ROUND(SUM(bespoked_data.sales.purchasePrice * bespoked_data.sales.salesCommission/100), 2) AS 'commission', COUNT(bespoked_data.sales.salesID) AS 'Number of Sales', YEAR(bespoked_data.sales.salesDate) AS 'Year', QUARTER(bespoked_data.sales.salesDate) AS 'Quarter' FROM bespoked_data.sales GROUP BY QUARTER(bespoked_data.sales.salesDate), YEAR(bespoked_data.sales.salesDate) ORDER BY 'Year', 'Quarter'",
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.put("/updateProduct", (req, res) => {
   const productID = req.body.productID;
   const name = req.body.name;
   const manufacturer = req.body.manufacturer;
@@ -55,6 +110,38 @@ app.put("/update", (req, res) => {
       qtyOnHand,
       commissionPercentage,
       productID,
+    ],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
+app.put("/updateSalesperson", (req, res) => {
+  const salespersonID = req.body.salespersonID;
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const address = req.body.address;
+  const phone = req.body.phone;
+  const startDate = req.body.startDate;
+  const terminationDate = req.body.terminationDate;
+  const manager = req.body.manager;
+
+  db.query(
+    "UPDATE salesperson SET firstName = ?, lastName = ?, address = ?, phone = ?, startDate = ?, terminationDate = ?, manager = ? WHERE salespersonID = ?",
+    [
+      firstName,
+      lastName,
+      address,
+      phone,
+      startDate,
+      terminationDate,
+      manager,
+      salespersonID,
     ],
     (err, result) => {
       if (err) {
