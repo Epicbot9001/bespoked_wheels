@@ -8,6 +8,35 @@ const Sales = () => {
   //list to store product data
   const [salesList, setSalesList] = useState([]);
 
+  const [product, setProduct] = useState("");
+  const [salesperson, setSalesperson] = useState("");
+  const [customer, setCustomer] = useState("");
+  const [salesDate, setSalesDate] = useState("");
+  const [purchasePrice, setPurchasePrice] = useState(0);
+  const [commission, setCommission] = useState(0);
+
+  const addEmployee = () => {
+    Axios.post("http://localhost:3001/create", {
+      product: product,
+      salesperson: salesperson,
+      customer: customer,
+      salesDate: salesDate,
+      purchasePrice: purchasePrice,
+      commission: commission,
+    }).then(() => {
+      setSalesList([
+        ...salesList,
+        {
+          product: product,
+          salesperson: salesperson,
+          customer: customer,
+          salesDate: salesDate,
+          purchasePrice: purchasePrice,
+          salesCommission: commission,
+        },
+      ]);
+    });
+  };
   //method called on button click
   const getSales = () => {
     Axios.get("http://localhost:3001/sales").then((response) => {
@@ -67,10 +96,6 @@ const Sales = () => {
 
   return (
     <div className="App">
-      {/* <div className="title">
-        <img src={Logo} alt="logo" width="8%" />
-        <h1>BeSpoked Wheels</h1>
-      </div> */}
       <div className="products">
         <button id="productButton" onClick={getSales}>
           Show Sales
@@ -80,25 +105,63 @@ const Sales = () => {
         </div>
         <div className="inputs">
           <div className="cols">
-            Product: <input type="text" />
+            Product:{" "}
+            <input
+              type="text"
+              onChange={(e) => {
+                setProduct(e.target.value);
+              }}
+            />
           </div>
           <div className="cols">
-            Salesperson: <input type="text" />
+            Salesperson:{" "}
+            <input
+              type="text"
+              onChange={(e) => {
+                setSalesperson(e.target.value);
+              }}
+            />
           </div>
           <div className="cols">
-            Customer: <input type="text" />
+            Customer:{" "}
+            <input
+              type="text"
+              onChange={(e) => {
+                setCustomer(e.target.value);
+              }}
+            />
           </div>
           <div className="cols">
-            Sales Date: <input type="text" />
+            Sales Date:{" "}
+            <input
+              type="text"
+              onChange={(e) => {
+                setSalesDate(e.target.value);
+              }}
+            />
           </div>
           <div className="cols">
-            Purchase Price: <input type="number" />
+            Purchase Price:{" "}
+            <input
+              type="number"
+              onChange={(e) => {
+                setPurchasePrice(e.target.value);
+              }}
+            />
           </div>
           <div className="cols">
-            Sales Commission: <input type="number" />
+            Sales Commission:{" "}
+            <input
+              type="number"
+              onChange={(e) => {
+                setCommission(e.target.value);
+              }}
+            />
           </div>
         </div>
-        <button className="addSale">Add Sale</button>
+        <button onClick={addEmployee} className="addSale">
+          Add Sale
+        </button>
       </div>
     </div>
   );

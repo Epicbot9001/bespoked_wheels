@@ -19,7 +19,26 @@ const db = mysql.createConnection({
 
 //Makes a route for create (localhost:3001/create)
 //Take from frontend is req (request), and send something to frontend is res (respond) through insertion
-app.post("/create", (req, res) => {});
+app.post("/create", (req, res) => {
+  const product = req.body.product;
+  const salesperson = req.body.salesperson;
+  const customer = req.body.customer;
+  const salesDate = req.body.salesDate;
+  const purchasePrice = req.body.purchasePrice;
+  const salesCommission = req.body.commission;
+
+  db.query(
+    "INSERT INTO sales (product, salesperson, customer, salesDate, purchasePrice, salesCommission) VALUES (?,?,?,?,?,?)",
+    [product, salesperson, customer, salesDate, purchasePrice, salesCommission],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send();
+      }
+    }
+  );
+});
 
 //Makes route for products (localhost:3001/products)
 //Will get (read) data from database
