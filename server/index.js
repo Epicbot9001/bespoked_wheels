@@ -97,7 +97,7 @@ app.get("/sales", (req, res) => {
 app.get("/commission", (req, res) => {
   //Select everything from sales table
   db.query(
-    "SELECT bespoked_data.sales.salesperson, ROUND(SUM(bespoked_data.sales.purchasePrice * bespoked_data.sales.salesCommission/100), 2) AS 'commission', COUNT(bespoked_data.sales.salesID) AS 'Number of Sales', YEAR(bespoked_data.sales.salesDate) AS 'Year', QUARTER(bespoked_data.sales.salesDate) AS 'Quarter' FROM bespoked_data.sales GROUP BY QUARTER(bespoked_data.sales.salesDate), YEAR(bespoked_data.sales.salesDate) ORDER BY 'Year', 'Quarter'",
+    "SELECT bespoked_data.sales.salesperson, ROUND(SUM(bespoked_data.sales.purchasePrice * bespoked_data.sales.salesCommission/100), 2) AS 'commission', COUNT(bespoked_data.sales.salesID) AS 'Number of Sales', YEAR(bespoked_data.sales.salesDate) AS 'Year', QUARTER(bespoked_data.sales.salesDate) AS 'Quarter' FROM bespoked_data.sales GROUP BY bespoked_data.sales.salesperson, QUARTER(bespoked_data.sales.salesDate), YEAR(bespoked_data.sales.salesDate) ORDER BY 'Year', 'Quarter'",
     (err, result) => {
       if (err) {
         console.log(err);
